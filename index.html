@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zaum Online — MMORPG</title>
+<meta name="description" content="Zaum Online: MMORPG em pixel art, sem classes. Grátis para Windows e Android.">
+<meta property="og:title" content="Zaum Online">
+<meta property="og:description" content="MMORPG em pixel art, sem classes. Grátis para Windows e Android.">
+<meta property="og:image" content="assets/prints/05_castelo.jpg">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c14;
+    --panel: #14161f;
+    --panel-2: #1b1e2b;
+    --border: #3a3f5c;
+    --gold: #d8b56a;
+    --gold-bright: #ffd36b;
+    --accent: #7fb3ff;
+    --text: #e6e9f2;
+    --muted: #9a9fb5;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    scroll-behavior: smooth;
+  }
+  h1, h2, h3, .pixel { font-family: 'Press Start 2P', monospace; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ---- nav ---- */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: rgba(11,12,20,0.88);
+    border-bottom: 2px solid var(--border);
+    backdrop-filter: blur(6px);
+  }
+  nav .brand { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--gold-bright); }
+  nav .brand img { width: 26px; height: 26px; }
+  nav .links { display: flex; gap: 22px; font-size: 13px; }
+  nav .links a { text-decoration: none; color: var(--muted); transition: color .15s; }
+  nav .links a:hover { color: var(--gold-bright); }
+  nav .cta {
+    font-family: 'Press Start 2P', monospace; font-size: 11px;
+    background: linear-gradient(180deg, #e0b84a, #b5872f);
+    color: #241a10; padding: 10px 16px; border-radius: 4px;
+    text-decoration: none; border: 1px solid #6b4a28;
+  }
+
+  /* ---- hero ---- */
+  .hero {
+    position: relative; min-height: 78vh;
+    display: flex; align-items: flex-end;
+    background-size: cover; background-position: center;
+    image-rendering: pixelated;
+    overflow: hidden;
+  }
+  /* vídeo do jogo rodando no fundo do banner (WebP animado em loop; a imagem
+     parada hero.png fica por baixo enquanto ele carrega) */
+  .hero-video {
+    /* mais largo que o banner e encostado na esquerda: o meio da cena (onde a
+       ação acontece) cai do lado direito, fora de baixo do texto */
+    position: absolute; top: 0; left: 0; width: 136%; height: 100%;
+    object-fit: cover; object-position: center;
+    image-rendering: pixelated; max-width: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(11,12,20,0.82) 0%, rgba(11,12,20,0.5) 38%, rgba(11,12,20,0) 66%),
+      linear-gradient(180deg, rgba(11,12,20,0.15) 0%, rgba(11,12,20,0.45) 55%, var(--bg) 100%);
+  }
+  @media (max-width: 640px) {
+    /* no celular o texto ocupa a largura toda: vídeo centrado e mais escuro */
+    .hero-video { width: 100%; }
+    .hero::after { background: linear-gradient(180deg, rgba(11,12,20,0.55) 0%, rgba(11,12,20,0.7) 55%, var(--bg) 100%); }
+  }
+  .hero-inner { position: relative; z-index: 1; padding: 60px 6vw 70px; max-width: 780px; }
+  .hero .kicker { color: var(--gold-bright); font-size: 11px; letter-spacing: 2px; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(28px, 5vw, 48px); line-height: 1.5; margin: 0 0 18px; color: #fff; text-shadow: 0 3px 0 #000, 0 0 30px rgba(0,0,0,0.6); }
+  .hero p { font-size: 15px; color: var(--text); line-height: 1.7; max-width: 560px; margin: 0 0 30px; opacity: 0.92; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-family: 'Press Start 2P', monospace; font-size: 13px;
+    background: linear-gradient(180deg, #e0b84a, #a5772a);
+    color: #241a10; padding: 16px 26px; border-radius: 6px;
+    text-decoration: none; border: 2px solid #6b4a28;
+    box-shadow: 0 4px 0 #6b4a28, 0 8px 18px rgba(0,0,0,0.4);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform .12s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'Press Start 2P', monospace; font-size: 12px;
+    padding: 16px 22px; border-radius: 6px; text-decoration: none;
+    border: 2px solid var(--border); color: var(--text);
+    display: inline-flex; align-items: center;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .hero-meta { margin-top: 18px; font-size: 11px; color: var(--muted); }
+  .hero-meta b { color: var(--gold-bright); }
+
+  /* ---- sections ---- */
+  section { padding: 64px 6vw; max-width: 1180px; margin: 0 auto; }
+  .section-title { font-size: 18px; color: var(--gold-bright); margin-bottom: 8px; }
+  .section-sub { color: var(--muted); font-size: 13px; margin-bottom: 36px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .feature {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px; position: relative;
+  }
+  .feature .icon { font-size: 22px; margin-bottom: 12px; }
+  .feature h3 { font-size: 12px; color: var(--gold-bright); margin: 0 0 10px; line-height: 1.6; }
+  .feature p { font-size: 12.5px; color: var(--muted); line-height: 1.7; margin: 0; }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .gallery figure { margin: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .gallery img { width: 100%; height: 190px; object-fit: cover; image-rendering: pixelated; }
+  .gallery figcaption { padding: 10px 14px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--border); }
+
+  .download-box {
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 40px; display: flex; flex-wrap: wrap; gap: 30px; align-items: center; justify-content: space-between;
+  }
+  .download-box h2 { margin: 0 0 10px; font-size: 16px; color: var(--gold-bright); }
+  .download-box p { margin: 0; color: var(--muted); font-size: 12.5px; max-width: 480px; line-height: 1.7; }
+  .download-steps { list-style: none; margin: 18px 0 0; padding: 0; font-size: 12px; color: var(--text); }
+  .download-steps li { margin-bottom: 8px; padding-left: 22px; position: relative; }
+  .download-steps li::before { content: "▸"; position: absolute; left: 0; color: var(--gold); }
+
+  .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .download-box .btn-primary { margin-top: 22px; }
+  .download-box small { display: block; margin-top: 14px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .gallery a { display: block; }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 30px 6vw; text-align: center;
+    color: var(--muted); font-size: 11px;
+  }
+  footer .pixel { font-size: 12px; color: var(--gold); margin-bottom: 10px; }
+
+  @media (max-width: 640px) {
+    nav .links { display: none; }
+    section { padding: 46px 5vw; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><img src="assets/icon.png" alt="" style="image-rendering: pixelated"> ZAUM ONLINE</div>
+  <div class="links">
+    <a href="#sobre">O jogo</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#download">Download</a>
+  </div>
+  <a class="cta" href="#download">JOGAR AGORA</a>
+</nav>
+
+<div class="hero" style="background-image: url('assets/hero.png');">
+  <img class="hero-video" src="assets/hero.webp" alt="" aria-hidden="true">
+  <div class="hero-inner">
+    <div class="kicker">MMORPG · SEM CLASSES · TUDO DEPENDE DO SEU EQUIPAMENTO</div>
+    <h1>Sua build.<br>Sua história.<br>Seu mundo.</h1>
+    <p>Explore Pedravale, a Fazenda do Moinho, o pântano, o vale do dragão e a ilha da Górgona.
+       Enfrente goblins, mortos-vivos e chefes em expedições em grupo. Não existem classes:
+       troque de arma e armadura e mude todo o seu estilo de jogo, a qualquer momento.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://github.com/ismash1598/zaumonline-releases/releases/latest/download/ZaumLauncher.exe">⬇ BAIXAR PARA PC</a>
+      <a class="btn-ghost" href="https://github.com/ismash1598/zaumonline-releases/releases/latest/download/ZaumOnline.apk">⬇ ANDROID</a>
+    </div>
+    <div class="hero-meta">Grátis · <b>Windows</b> e <b>Android</b> · o jogo se atualiza sozinho</div>
+  </div>
+</div>
+
+<section id="sobre">
+  <div class="section-title">O QUE VOCÊ VAI ENCONTRAR</div>
+  <div class="section-sub">Um mundo em construção constante, com sistemas novos chegando toda semana.</div>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">⚔️</div>
+      <h3>SEM CLASSES FIXAS</h3>
+      <p>Espada, arco ou cajado — sua arma equipada define suas habilidades. Troque quando quiser, sem reiniciar personagem.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🏰</div>
+      <h3>EXPEDIÇÕES E CHEFES</h3>
+      <p>Mina Desmoronada, Catacumbas Esquecidas e Fortaleza do Eclipse: dungeons em 3 dificuldades, sozinho ou em grupo de até 5.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🌍</div>
+      <h3>MUNDO ABERTO VIVO</h3>
+      <p>Pedravale, o Assentamento Goblin, o Ninho de Lobos e mais — tudo desenhado à mão, sem dois cantos iguais.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📜</div>
+      <h3>LORE COLECIONÁVEL</h3>
+      <p>Encontre páginas espalhadas pelo mundo e monte a história por trás da corrupção que tomou conta das ruínas.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🛡️</div>
+      <h3>EQUIPAMENTO QUE IMPORTA</h3>
+      <p>Cada peça muda atributos e aparência do personagem — visual e progressão sempre andam juntos.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">👥</div>
+      <h3>ONLINE DE VERDADE</h3>
+      <p>Grupos, guildas, duelos, Coliseu e mercado entre jogadores, tudo num servidor único.</p>
+    </div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="section-title">GALERIA</div>
+  <div class="section-sub">Capturas direto do jogo.</div>
+  <div class="gallery">
+    <figure><a href="assets/prints/01_pedravale.jpg"><img src="assets/prints/01_pedravale.jpg" alt="Pedravale" loading="lazy"></a><figcaption>Pedravale, a cidade inicial, com o mercado na praça</figcaption></figure>
+    <figure><a href="assets/prints/05_castelo.jpg"><img src="assets/prints/05_castelo.jpg" alt="Floresta do castelo" loading="lazy"></a><figcaption>A floresta vermelha em volta do castelo do Lorde da Morte</figcaption></figure>
+    <figure><a href="assets/prints/09_acampamento_goblin.jpg"><img src="assets/prints/09_acampamento_goblin.jpg" alt="Acampamento goblin" loading="lazy"></a><figcaption>Combate no Acampamento Goblin</figcaption></figure>
+    <figure><a href="assets/prints/18_tela_eventos_expedicoes.jpg"><img src="assets/prints/18_tela_eventos_expedicoes.jpg" alt="Expedições" loading="lazy"></a><figcaption>Expedições: três dungeons com chefes, em três dificuldades</figcaption></figure>
+    <figure><a href="assets/prints/11_coliseu.jpg"><img src="assets/prints/11_coliseu.jpg" alt="Coliseu" loading="lazy"></a><figcaption>O Coliseu: ondas, 1v1 e 3v3</figcaption></figure>
+    <figure><a href="assets/prints/08_pantano.jpg"><img src="assets/prints/08_pantano.jpg" alt="Pântano" loading="lazy"></a><figcaption>O Pântano do Lodo, coberto de névoa</figcaption></figure>
+    <figure><a href="assets/prints/06_vale_do_dragao.jpg"><img src="assets/prints/06_vale_do_dragao.jpg" alt="Vale do dragão" loading="lazy"></a><figcaption>O vale do dragão</figcaption></figure>
+    <figure><a href="assets/prints/04_porto.jpg"><img src="assets/prints/04_porto.jpg" alt="Porto" loading="lazy"></a><figcaption>Porto Maré Alta</figcaption></figure>
+    <figure><a href="assets/prints/02_fazenda_moinho.jpg"><img src="assets/prints/02_fazenda_moinho.jpg" alt="Fazenda do Moinho" loading="lazy"></a><figcaption>A Fazenda do Moinho, tomada pelos plantificados</figcaption></figure>
+    <figure><a href="assets/prints/13_tela_map_screen.jpg"><img src="assets/prints/13_tela_map_screen.jpg" alt="Mapa do mundo" loading="lazy"></a><figcaption>O mapa do mundo</figcaption></figure>
+    <figure><a href="assets/prints/15_tela_talent_screen.jpg"><img src="assets/prints/15_tela_talent_screen.jpg" alt="Talentos" loading="lazy"></a><figcaption>Talentos: Vigor, Fúria, Agilidade e Foco</figcaption></figure>
+    <figure><a href="assets/prints/19_launcher.jpg"><img src="assets/prints/19_launcher.jpg" alt="Launcher" loading="lazy"></a><figcaption>O launcher: baixa e atualiza o jogo sozinho</figcaption></figure>
+  </div>
+</section>
+
+<section id="download">
+  <div class="section-title">DOWNLOAD</div>
+  <div class="section-sub">Grátis. Sempre a versão mais recente.</div>
+  <div class="downloads">
+    <div class="download-box">
+      <div>
+        <h2>Windows</h2>
+        <p>O launcher baixa o jogo, mantém tudo atualizado e se atualiza sozinho. Windows 10/11 de 64 bits.</p>
+        <ul class="download-steps">
+          <li>Baixe o <b>ZaumLauncher.exe</b> e abra</li>
+          <li>Se o Windows avisar, clique em <b>Mais informações → Executar assim mesmo</b></li>
+          <li>Clique em <b>JOGAR</b>, crie sua conta e comece</li>
+        </ul>
+        <a class="btn-primary" href="https://github.com/ismash1598/zaumonline-releases/releases/latest/download/ZaumLauncher.exe">⬇ BAIXAR PARA PC</a>
+      </div>
+    </div>
+    <div class="download-box">
+      <div>
+        <h2>Android</h2>
+        <p>O app procura atualizações sozinho toda vez que abre.</p>
+        <ul class="download-steps">
+          <li>Baixe o <b>ZaumOnline.apk</b> pelo celular</li>
+          <li>Permita instalar apps do navegador quando o Android pedir</li>
+          <li>Instale, abra e entre com a mesma conta do PC</li>
+        </ul>
+        <a class="btn-primary" href="https://github.com/ismash1598/zaumonline-releases/releases/latest/download/ZaumOnline.apk">⬇ BAIXAR APK</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="pixel">ZAUM ONLINE</div>
+  Jogo em desenvolvimento. O servidor pode ficar fora do ar de vez em quando.
+</footer>
+
+</body>
+</html>
