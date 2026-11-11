@@ -63,22 +63,29 @@
   }
   /* vídeo do jogo rodando no fundo do banner (WebP animado em loop; a imagem
      parada hero.png fica por baixo enquanto ele carrega) */
-  .hero-video {
-    /* mais largo que o banner e encostado na esquerda: o meio da cena (onde a
-       ação acontece) cai do lado direito, fora de baixo do texto */
-    position: absolute; top: 0; left: 0; width: 136%; height: 100%;
-    object-fit: cover; object-position: center;
-    image-rendering: pixelated; max-width: none;
+  /* fundo do banner: capturas nítidas do jogo (1920px) que se alternam com um
+     zoom lento */
+  .hero-slide {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center; max-width: none;
+    opacity: 0; transition: opacity 1.4s ease;
+    animation: drift 24s ease-in-out infinite alternate;
   }
+  .hero-slide.on { opacity: 1; }
+  @keyframes drift { from { transform: scale(1.02); } to { transform: scale(1.12) translateX(-1.5%); } }
+  @media (prefers-reduced-motion: reduce) { .hero-slide { animation: none; } }
+  .gallery figure.extra { display: none; }
+  .gallery.all figure.extra { display: block; }
+  .more { text-align: center; margin-top: 26px; }
+  .more button { background: none; cursor: pointer; }
   .hero::after {
     content: ""; position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(11,12,20,0.82) 0%, rgba(11,12,20,0.5) 38%, rgba(11,12,20,0) 66%),
-      linear-gradient(180deg, rgba(11,12,20,0.15) 0%, rgba(11,12,20,0.45) 55%, var(--bg) 100%);
+      linear-gradient(90deg, rgba(11,12,20,0.88) 0%, rgba(11,12,20,0.6) 36%, rgba(11,12,20,0.05) 70%),
+      linear-gradient(180deg, rgba(11,12,20,0.05) 0%, rgba(11,12,20,0.2) 60%, var(--bg) 100%);
   }
   @media (max-width: 640px) {
     /* no celular o texto ocupa a largura toda: vídeo centrado e mais escuro */
-    .hero-video { width: 100%; }
     .hero::after { background: linear-gradient(180deg, rgba(11,12,20,0.55) 0%, rgba(11,12,20,0.7) 55%, var(--bg) 100%); }
   }
   .hero-inner { position: relative; z-index: 1; padding: 60px 6vw 70px; max-width: 780px; }
@@ -123,7 +130,8 @@
 
   .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
   .gallery figure { margin: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .gallery img { width: 100%; height: 190px; object-fit: cover; image-rendering: pixelated; }
+  .gallery img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .25s; }
+  .gallery figure:hover img { transform: scale(1.04); }
   .gallery figcaption { padding: 10px 14px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--border); }
 
   .download-box {
@@ -166,8 +174,11 @@
   <a class="cta" href="#download">JOGAR AGORA</a>
 </nav>
 
-<div class="hero" style="background-image: url('assets/hero.png');">
-  <img class="hero-video" src="assets/hero.webp" alt="" aria-hidden="true">
+<div class="hero">
+  <img class="hero-slide on" src="assets/hero/1.jpg" alt="" aria-hidden="true">
+  <img class="hero-slide" src="assets/hero/2.jpg" alt="" aria-hidden="true" loading="lazy">
+  <img class="hero-slide" src="assets/hero/3.jpg" alt="" aria-hidden="true" loading="lazy">
+  <img class="hero-slide" src="assets/hero/4.jpg" alt="" aria-hidden="true" loading="lazy">
   <div class="hero-inner">
     <div class="kicker">MMORPG · SEM CLASSES · TUDO DEPENDE DO SEU EQUIPAMENTO</div>
     <h1>Sua build.<br>Sua história.<br>Seu mundo.</h1>
@@ -226,16 +237,17 @@
     <figure><a href="assets/prints/01_pedravale.jpg"><img src="assets/prints/01_pedravale.jpg" alt="Pedravale" loading="lazy"></a><figcaption>Pedravale, a cidade inicial, com o mercado na praça</figcaption></figure>
     <figure><a href="assets/prints/05_castelo.jpg"><img src="assets/prints/05_castelo.jpg" alt="Floresta do castelo" loading="lazy"></a><figcaption>A floresta vermelha em volta do castelo do Lorde da Morte</figcaption></figure>
     <figure><a href="assets/prints/09_acampamento_goblin.jpg"><img src="assets/prints/09_acampamento_goblin.jpg" alt="Acampamento goblin" loading="lazy"></a><figcaption>Combate no Acampamento Goblin</figcaption></figure>
-    <figure><a href="assets/prints/18_tela_eventos_expedicoes.jpg"><img src="assets/prints/18_tela_eventos_expedicoes.jpg" alt="Expedições" loading="lazy"></a><figcaption>Expedições: três dungeons com chefes, em três dificuldades</figcaption></figure>
-    <figure><a href="assets/prints/11_coliseu.jpg"><img src="assets/prints/11_coliseu.jpg" alt="Coliseu" loading="lazy"></a><figcaption>O Coliseu: ondas, 1v1 e 3v3</figcaption></figure>
-    <figure><a href="assets/prints/08_pantano.jpg"><img src="assets/prints/08_pantano.jpg" alt="Pântano" loading="lazy"></a><figcaption>O Pântano do Lodo, coberto de névoa</figcaption></figure>
-    <figure><a href="assets/prints/06_vale_do_dragao.jpg"><img src="assets/prints/06_vale_do_dragao.jpg" alt="Vale do dragão" loading="lazy"></a><figcaption>O vale do dragão</figcaption></figure>
-    <figure><a href="assets/prints/04_porto.jpg"><img src="assets/prints/04_porto.jpg" alt="Porto" loading="lazy"></a><figcaption>Porto Maré Alta</figcaption></figure>
-    <figure><a href="assets/prints/02_fazenda_moinho.jpg"><img src="assets/prints/02_fazenda_moinho.jpg" alt="Fazenda do Moinho" loading="lazy"></a><figcaption>A Fazenda do Moinho, tomada pelos plantificados</figcaption></figure>
-    <figure><a href="assets/prints/13_tela_map_screen.jpg"><img src="assets/prints/13_tela_map_screen.jpg" alt="Mapa do mundo" loading="lazy"></a><figcaption>O mapa do mundo</figcaption></figure>
-    <figure><a href="assets/prints/15_tela_talent_screen.jpg"><img src="assets/prints/15_tela_talent_screen.jpg" alt="Talentos" loading="lazy"></a><figcaption>Talentos: Vigor, Fúria, Agilidade e Foco</figcaption></figure>
-    <figure><a href="assets/prints/19_launcher.jpg"><img src="assets/prints/19_launcher.jpg" alt="Launcher" loading="lazy"></a><figcaption>O launcher: baixa e atualiza o jogo sozinho</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/18_tela_eventos_expedicoes.jpg"><img src="assets/prints/18_tela_eventos_expedicoes.jpg" alt="Expedições" loading="lazy"></a><figcaption>Expedições: três dungeons com chefes, em três dificuldades</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/11_coliseu.jpg"><img src="assets/prints/11_coliseu.jpg" alt="Coliseu" loading="lazy"></a><figcaption>O Coliseu: ondas, 1v1 e 3v3</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/08_pantano.jpg"><img src="assets/prints/08_pantano.jpg" alt="Pântano" loading="lazy"></a><figcaption>O Pântano do Lodo, coberto de névoa</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/06_vale_do_dragao.jpg"><img src="assets/prints/06_vale_do_dragao.jpg" alt="Vale do dragão" loading="lazy"></a><figcaption>O vale do dragão</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/04_porto.jpg"><img src="assets/prints/04_porto.jpg" alt="Porto" loading="lazy"></a><figcaption>Porto Maré Alta</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/02_fazenda_moinho.jpg"><img src="assets/prints/02_fazenda_moinho.jpg" alt="Fazenda do Moinho" loading="lazy"></a><figcaption>A Fazenda do Moinho, tomada pelos plantificados</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/13_tela_map_screen.jpg"><img src="assets/prints/13_tela_map_screen.jpg" alt="Mapa do mundo" loading="lazy"></a><figcaption>O mapa do mundo</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/15_tela_talent_screen.jpg"><img src="assets/prints/15_tela_talent_screen.jpg" alt="Talentos" loading="lazy"></a><figcaption>Talentos: Vigor, Fúria, Agilidade e Foco</figcaption></figure>
+    <figure class="extra"><a href="assets/prints/19_launcher.jpg"><img src="assets/prints/19_launcher.jpg" alt="Launcher" loading="lazy"></a><figcaption>O launcher: baixa e atualiza o jogo sozinho</figcaption></figure>
   </div>
+  <div class="more"><button class="btn-ghost" id="more">VER MAIS FOTOS</button></div>
 </section>
 
 <section id="download">
@@ -273,6 +285,24 @@
   <div class="pixel">ZAUM ONLINE</div>
   Jogo em desenvolvimento. O servidor pode ficar fora do ar de vez em quando.
 </footer>
+<script>
+  // banner: troca a captura de fundo a cada 6 s
+  (function () {
+    var slides = document.querySelectorAll('.hero-slide'), i = 0;
+    if (slides.length < 2) return;
+    setInterval(function () {
+      slides[i].classList.remove('on');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('on');
+    }, 6000);
+  })();
+  // galeria: mostra o resto das fotos
+  document.getElementById('more').addEventListener('click', function () {
+    var g = document.querySelector('.gallery');
+    var open = g.classList.toggle('all');
+    this.textContent = open ? 'VER MENOS' : 'VER MAIS FOTOS';
+  });
+</script>
 
 </body>
 </html>
